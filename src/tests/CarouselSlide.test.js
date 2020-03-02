@@ -2,7 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 import CarouselSlide from "../CarouselSlide";
 
-describe("CarouselSlide", () => {
+describe("A CarouselSlide", () => {
   let wrapper;
 
   beforeEach(() => {
