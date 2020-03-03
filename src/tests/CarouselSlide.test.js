@@ -16,6 +16,16 @@ describe("Img", () => {
       mounted.containsMatchingElement(<img src={imgUrl} alt={alt} />)
     ).toBe(true);
   });
+  it("should have these styles", () => {
+    expect(mounted).toHaveStyleRule("width", "100%");
+    expect(mounted).toHaveStyleRule("object-fit", "cover");
+  });
+  it("should use imgHeight as the height style property", () => {
+    expect(mounted).toHaveStyleRule("height", "500px");
+    const dynHeight = "calc(100vh - 100px)";
+    mounted.setProps({ imgHeight: dynHeight });
+    expect(mounted).toHaveStyleRule("height", dynHeight);
+  });
 });
 describe("A CarouselSlide", () => {
   let wrapper;
