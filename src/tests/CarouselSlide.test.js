@@ -1,7 +1,22 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { shallow, mount } from "enzyme";
 import CarouselSlide from "../CarouselSlide";
 
+describe("Img", () => {
+  let mounted;
+  const imgUrl = "https://example.com/default.jpg";
+  const alt = "alt";
+
+  beforeEach(() => {
+    const Img = CarouselSlide.defaultProps.Img;
+    mounted = mount(<Img src={imgUrl} imgHeight={500} alt={alt} />);
+  });
+  it("should render an img with the given src", () => {
+    expect(
+      mounted.containsMatchingElement(<img src={imgUrl} alt={alt} />)
+    ).toBe(true);
+  });
+});
 describe("A CarouselSlide", () => {
   let wrapper;
 
@@ -14,14 +29,14 @@ describe("A CarouselSlide", () => {
   it("should render a 'figure'", () => {
     expect(wrapper.type()).toBe("figure");
   });
-  it("should render an 'img' and a 'figcaption' as children", () => {
-    expect(wrapper.childAt(0).type()).toBe("img");
+  it("should render props.Img and a 'figcaption' as children", () => {
+    expect(wrapper.childAt(0).type()).toBe(CarouselSlide.defaultProps.Img);
     expect(wrapper.childAt(1).type()).toBe("figcaption");
   });
   it("should pass 'imgUrl' through to 'img'", () => {
     const imgUrl = "https://example.com/image.png";
     wrapper.setProps({ imgUrl });
-    const img = wrapper.find("img");
+    const img = wrapper.find(CarouselSlide.defaultProps.Img);
     expect(img.prop("src")).toBe(imgUrl);
   });
   it("should use 'description' and 'attribution' as the 'figcaption'", () => {
@@ -32,7 +47,7 @@ describe("A CarouselSlide", () => {
       `${description} ${attribution}`
     );
     expect(wrapper.find("figcaption strong").text()).toBe(description);
-    const img = wrapper.find("img");
+    const img = wrapper.find(CarouselSlide.defaultProps.Img);
     expect(img.prop("alt")).toBe(description);
   });
   it("should pass other props through to the 'figure'", () => {
